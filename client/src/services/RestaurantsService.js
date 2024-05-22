@@ -4,9 +4,14 @@ import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
 class RestaurantsService {
+  async getRestaurantById(restaurantId) {
+    const res = await api.get(`api/restaurants/${restaurantId}`)
+    logger.log('GOT RESTAURANT 👩‍🍳', res.data)
+  }
+
   async getAllRestaurants() {
     const res = await api.get('api/restaurants')
-    logger.log('GOT RESTAURANTS 🧑‍🍳', res.data)
+    logger.log('GOT RESTAURANTS 🧑‍🍳👨‍🍳👩‍🍳', res.data)
     AppState.restaurants = res.data.map(pojo => new Restaurant(pojo))
   }
 }
