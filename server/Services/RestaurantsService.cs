@@ -44,7 +44,7 @@ public class RestaurantsService
   // NOTE overload: if you call GetRestaurantById and supply an interger and a string, this method runs
   internal Restaurant GetRestaurantById(int restaurantId, string userId)
   {
-    Restaurant restaurant = GetRestaurantById(restaurantId);
+    Restaurant restaurant = GetRestaurantById(restaurantId); // private method only accessible in this class
 
     if (restaurant.IsShutdown == true && restaurant.CreatorId != userId)
     {
@@ -56,7 +56,7 @@ public class RestaurantsService
 
   internal Restaurant UpdateRestaurant(Restaurant restaurantData, int restaurantId, string userId)
   {
-    Restaurant restaurantToUpdate = GetRestaurantById(restaurantId);
+    Restaurant restaurantToUpdate = GetRestaurantById(restaurantId);  // private method only accessible in this class
 
     if (restaurantToUpdate.CreatorId != userId)
     {

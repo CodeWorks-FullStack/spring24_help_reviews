@@ -50,8 +50,10 @@ public class RestaurantsController : ControllerBase
   {
     try
     {
-      // We can still see who is logged in though
+      // We can still see who is logged in even if the route is not authorized
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+
+      // NOTE userInfo?.Id does not drill into userInfo if null (user is not logged in)
       Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId, userInfo?.Id);
       return Ok(restaurant);
     }
