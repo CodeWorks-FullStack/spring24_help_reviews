@@ -17,8 +17,10 @@ CREATE TABLE
     name VARCHAR(255) NOT NULL,
     imgUrl VARCHAR(1000) NOT NULL,
     description VARCHAR(1000) NOT NULL,
-    visits INT NOT NULL,
+    visits INT NOT NULL DEFAULT 0,
     isShutdown BOOLEAN NOT NULL,
     creatorId VARCHAR(255) NOT NULL,
     FOREIGN KEY (creatorId) REFERENCES accounts (id) ON DELETE CASCADE
   );
+
+DROP TABLE restaurants;

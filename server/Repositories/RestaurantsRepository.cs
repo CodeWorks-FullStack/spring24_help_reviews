@@ -11,9 +11,29 @@ public class RestaurantsRepository : IRepository<Restaurant>
     _db = db;
   }
 
+  private Restaurant PopulateCreator(Restaurant restaurant, Profile creator)
+  {
+    restaurant.Creator = creator;
+    return restaurant;
+  }
+
   public Restaurant Create(Restaurant data)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    INSERT INTO
+    restaurants(name, description, isShutdown, creatorId, imgUrl)
+    VALUES(@Name, @Description, @IsShutdown, @CreatorId, @ImgUrl);
+
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = LAST_INSERT_ID();";
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, PopulateCreator, data).FirstOrDefault();
+
+    return restaurant;
   }
 
 
