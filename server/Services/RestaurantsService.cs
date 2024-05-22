@@ -27,13 +27,30 @@ public class RestaurantsService
     return restaurants;
   }
 
-  internal Restaurant GetRestaurantById(int restaurantId)
+  // NOTE overload: if you call GetRestaurantById and only supply an interger, this method runs
+  // this is a private method, we are dealing with sensitive information, so this only callable by members of the service
+  private Restaurant GetRestaurantById(int restaurantId)
   {
     Restaurant restaurant = _repository.GetById(restaurantId);
+
     if (restaurant == null)
     {
       throw new Exception($"Invalid id: {restaurantId}");
     }
+
+    return restaurant;
+  }
+
+  // NOTE overload: if you call GetRestaurantById and supply an interger and a string, this method runs
+  internal Restaurant GetRestaurantById(int restaurantId, string userId)
+  {
+    Restaurant restaurant = GetRestaurantById(restaurantId);
+
+    if (restaurant.IsShutdown == true && restaurant.CreatorId != userId)
+    {
+      throw new Exception($"Invalid id: {restaurantId} 😉");
+    }
+
     return restaurant;
   }
 

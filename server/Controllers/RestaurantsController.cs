@@ -44,12 +44,15 @@ public class RestaurantsController : ControllerBase
     }
   }
 
+  // NOTE not an authorized route
   [HttpGet("{restaurantId}")]
-  public ActionResult<Restaurant> GetRestaurantById(int restaurantId)
+  public async Task<ActionResult<Restaurant>> GetRestaurantById(int restaurantId)
   {
     try
     {
-      Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId);
+      // We can still see who is logged in though
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId, userInfo?.Id);
       return Ok(restaurant);
     }
     catch (Exception exception)
