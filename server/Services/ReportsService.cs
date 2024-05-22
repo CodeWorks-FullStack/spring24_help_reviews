@@ -4,6 +4,7 @@
 
 
 
+
 namespace help_reviews.Services;
 
 public class ReportsService
@@ -13,5 +14,11 @@ public class ReportsService
   public ReportsService(ReportsRepository repository)
   {
     _repository = repository;
+  }
+
+  internal Report CreateReport(Report reportData)
+  {
+    Report report = _repository.Create(reportData);
+    return report;
   }
 }

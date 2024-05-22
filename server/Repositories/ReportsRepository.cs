@@ -11,9 +11,29 @@ public class ReportsRepository : IRepository<Report>
     _db = db;
   }
 
+  private Report PopulateCreator(Report report, Profile creator)
+  {
+    report.Creator = creator;
+    return report;
+  }
+
   public Report Create(Report data)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    INSERT INTO
+    reports(title, body, restaurantId, creatorId, imgUrl)
+    VALUES(@Title, @Body, @RestaurantId, @CreatorId, @ImgUrl);
+
+    SELECT
+    reports.*,
+    accounts.*
+    FROM reports
+    JOIN accounts ON accounts.id = reports.creatorId
+    WHERE reports.id = LAST_INSERT_ID();";
+
+    Report report = _db.Query<Report, Profile, Report>(sql, PopulateCreator, data).FirstOrDefault();
+
+    return report;
   }
 
   public void Destroy(int id)
@@ -35,4 +55,5 @@ public class ReportsRepository : IRepository<Report>
   {
     throw new NotImplementedException();
   }
+
 }
