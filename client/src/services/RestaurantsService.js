@@ -7,6 +7,7 @@ class RestaurantsService {
   async getRestaurantById(restaurantId) {
     const res = await api.get(`api/restaurants/${restaurantId}`)
     logger.log('GOT RESTAURANT 👩‍🍳', res.data)
+    AppState.activeRestaurant = new Restaurant(res.data)
   }
 
   async getAllRestaurants() {
