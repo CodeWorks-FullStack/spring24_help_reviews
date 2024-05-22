@@ -1,6 +1,9 @@
 
 
 
+
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace help_reviews.Services;
 
 public class RestaurantsService
@@ -22,5 +25,15 @@ public class RestaurantsService
   {
     List<Restaurant> restaurants = _repository.GetAll();
     return restaurants;
+  }
+
+  internal Restaurant GetRestaurantById(int restaurantId)
+  {
+    Restaurant restaurant = _repository.GetById(restaurantId);
+    if (restaurant == null)
+    {
+      throw new Exception($"Invalid id: {restaurantId}");
+    }
+    return restaurant;
   }
 }

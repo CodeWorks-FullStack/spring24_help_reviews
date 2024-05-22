@@ -58,7 +58,17 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
   public Restaurant GetById(int id)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = @id;";
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, PopulateCreator, new { id }).FirstOrDefault();
+
+    return restaurant;
   }
 
   public Restaurant Update(Restaurant data)
