@@ -36,4 +36,21 @@ public class RestaurantsService
     }
     return restaurant;
   }
+
+  internal Restaurant UpdateRestaurant(Restaurant restaurantData, int restaurantId, string userId)
+  {
+    Restaurant restaurantToUpdate = GetRestaurantById(restaurantId);
+
+    if (restaurantToUpdate.CreatorId != userId)
+    {
+      throw new Exception("NOT YOUR RESTAURANT!");
+    }
+
+    restaurantToUpdate.IsShutdown = restaurantData.IsShutdown ?? restaurantToUpdate.IsShutdown;
+    restaurantToUpdate.Description = restaurantData.Description ?? restaurantToUpdate.Description;
+
+    Restaurant updatedRestaurant = _repository.Update(restaurantToUpdate);
+
+    return updatedRestaurant;
+  }
 }

@@ -57,4 +57,20 @@ public class RestaurantsController : ControllerBase
       return BadRequest(exception.Message);
     }
   }
+
+  [HttpPut("{restaurantId}")]
+  [Authorize]
+  public async Task<ActionResult<Restaurant>> UpdateRestaurant(int restaurantId, [FromBody] Restaurant restaurantData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Restaurant restaurant = _restaurantsService.UpdateRestaurant(restaurantData, restaurantId, userInfo.Id);
+      return Ok(restaurant);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
 }

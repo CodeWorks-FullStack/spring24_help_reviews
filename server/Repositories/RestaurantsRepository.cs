@@ -73,6 +73,23 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
   public Restaurant Update(Restaurant data)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    UPDATE restaurants
+    SET
+    isShutdown = @IsShutdown,
+    description = @Description
+    WHERE id = @Id
+    LIMIT 1;
+
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = @Id;";
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, PopulateCreator, data).FirstOrDefault();
+
+    return restaurant;
   }
 }
