@@ -31,11 +31,15 @@ public class RestaurantsController : ControllerBase
   }
 
   [HttpGet]
-  public ActionResult<List<Restaurant>> GetAllRestaurants()
+  public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
   {
     try
     {
-      List<Restaurant> restaurants = _restaurantsService.GetAllRestaurants();
+      // We can still see who is logged in even if the route is not authorized
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+
+      // NOTE userInfo?.Id does not drill into userInfo if null (user is not logged in)
+      List<Restaurant> restaurants = _restaurantsService.GetAllRestaurants(userInfo?.Id);
       return Ok(restaurants);
     }
     catch (Exception exception)

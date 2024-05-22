@@ -21,10 +21,12 @@ public class RestaurantsService
     return restaurant;
   }
 
-  internal List<Restaurant> GetAllRestaurants()
+  internal List<Restaurant> GetAllRestaurants(string userId)
   {
     List<Restaurant> restaurants = _repository.GetAll();
-    return restaurants;
+
+    // NOTE FindAll works very similar to JavaScript filter
+    return restaurants.FindAll(restaurant => restaurant.IsShutdown == false || restaurant.CreatorId == userId);
   }
 
   // NOTE overload: if you call GetRestaurantById and only supply an interger, this method runs
