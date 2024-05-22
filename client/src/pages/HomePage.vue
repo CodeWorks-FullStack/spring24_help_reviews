@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-4">
+      <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-4 p-4">
         <RestaurantCard :restaurant="restaurant" />
       </div>
     </section>
