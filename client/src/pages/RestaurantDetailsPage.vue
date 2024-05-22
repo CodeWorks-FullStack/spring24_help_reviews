@@ -2,18 +2,28 @@
 import { computed, onMounted } from 'vue';
 import { restaurantsService } from '../services/RestaurantsService.js';
 import Pop from '../utils/Pop.js';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState.js';
+import { logger } from '../utils/Logger.js';
 
 const restaurant = computed(() => AppState.activeRestaurant)
 
 const route = useRoute()
 
+const router = useRouter()
+
 async function getRestaurantById() {
   try {
     await restaurantsService.getRestaurantById(route.params.restaurantId)
   } catch (error) {
-    Pop.error(error)
+    // NOTE if you are trying to access data that you should not be able to access, go back to the home page
+    if (error.response.data.includes('😉')) {
+      router.push({ name: 'Home' })
+      Pop.error(error.response.data + ' 🙎‍♂️')
+    }
+    else {
+      Pop.error(error)
+    }
   }
 }
 
