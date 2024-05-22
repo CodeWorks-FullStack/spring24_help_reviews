@@ -17,6 +17,22 @@ async function getRestaurantById() {
   }
 }
 
+async function updateRestaurant() {
+  try {
+    const message = `Are you sure that you want to ${restaurant.value.isShutdown ? 'open' : 'close'} ${restaurant.value.name}?`
+    const wantsToUpdate = await Pop.confirm(message)
+
+    if (!wantsToUpdate) { return }
+
+    const restaurantData = { isShutdown: !restaurant.value.isShutdown }
+
+    await restaurantsService.updateRestaurant(restaurant.value.id, restaurantData)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
+
 onMounted(() => {
   getRestaurantById()
 })
@@ -54,11 +70,15 @@ onMounted(() => {
             </div>
 
             <div class="d-flex gap-2">
-              <button class="btn btn-success fs-5">
+              <button v-if="restaurant.isShutdown" @click="updateRestaurant()" class="btn btn-success fs-5">
                 <i class="mdi mdi-door-open"></i>
                 Re-open
               </button>
-              <button class="btn btn-danger fs-5">
+              <button v-else @click="updateRestaurant()" class="btn btn-danger fs-5">
+                <i class="mdi mdi-door"></i>
+                Shutdown
+              </button>
+              <button @click="Pop.error('This feature is not supported')" class="btn btn-danger fs-5">
                 <i class="mdi mdi-delete"></i>
                 Delete
               </button>

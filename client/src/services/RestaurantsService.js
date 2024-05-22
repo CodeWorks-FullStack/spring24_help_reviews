@@ -4,6 +4,11 @@ import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
 class RestaurantsService {
+  async updateRestaurant(restaurantId, restaurantData) {
+    const res = await api.put(`api/restaurants/${restaurantId}`, restaurantData)
+    logger.log("UPDATED RESTAURANT 🪄 👩‍🍳", res.data)
+    AppState.activeRestaurant = new Restaurant(res.data)
+  }
   async getRestaurantById(restaurantId) {
     const res = await api.get(`api/restaurants/${restaurantId}`)
     logger.log('GOT RESTAURANT 👩‍🍳', res.data)
