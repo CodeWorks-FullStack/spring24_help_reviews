@@ -4,7 +4,6 @@ import { restaurantsService } from '../services/RestaurantsService.js';
 import Pop from '../utils/Pop.js';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState.js';
-import { logger } from '../utils/Logger.js';
 
 const restaurant = computed(() => AppState.activeRestaurant)
 
@@ -19,7 +18,7 @@ async function getRestaurantById() {
     // NOTE if you are trying to access data that you should not be able to access, go back to the home page
     if (error.response.data.includes('😉')) {
       router.push({ name: 'Home' })
-      Pop.error(error.response.data + ' 🙎‍♂️')
+      Pop.error(error.response.data + '🙎‍♂️')
     }
     else {
       Pop.error(error)
@@ -30,6 +29,7 @@ async function getRestaurantById() {
 async function updateRestaurant() {
   try {
     const message = `Are you sure that you want to ${restaurant.value.isShutdown ? 'open' : 'close'} ${restaurant.value.name}?`
+
     const wantsToUpdate = await Pop.confirm(message)
 
     if (!wantsToUpdate) { return }
