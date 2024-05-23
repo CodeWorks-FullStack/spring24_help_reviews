@@ -4,6 +4,7 @@ import { restaurantsService } from '../services/RestaurantsService.js';
 import Pop from '../utils/Pop.js';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState.js';
+import { reportsService } from '../services/ReportsService.js';
 
 const restaurant = computed(() => AppState.activeRestaurant)
 
@@ -26,6 +27,14 @@ async function getRestaurantById() {
   }
 }
 
+async function getReportsByRestaurantId() {
+  try {
+    await reportsService.getReportsByRestaurantId(route.params.restaurantId)
+  } catch (error) {
+    Pop.error(error)
+  }
+}
+
 async function updateRestaurant() {
   try {
     const message = `Are you sure that you want to ${restaurant.value.isShutdown ? 'open' : 'close'} ${restaurant.value.name}?`
@@ -45,6 +54,7 @@ async function updateRestaurant() {
 
 onMounted(() => {
   getRestaurantById()
+  getReportsByRestaurantId()
 })
 </script>
 
