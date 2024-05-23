@@ -4,7 +4,8 @@ import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { reportsService } from '../services/ReportsService.js';
 
-const restaurants = computed(() => AppState.restaurants)
+// NOTE I only want to show restaurants that I don't own here
+const restaurants = computed(() => AppState.restaurants.filter(restaurant => restaurant.creatorId != AppState.account?.id))
 
 const reportFormData = ref({
   title: '',
@@ -35,9 +36,6 @@ async function createReport() {
 <template>
   <form @submit.prevent="createReport()">
     <select v-model="reportFormData.restaurantId" class="form-select mb-3" aria-label="Default select example" required>
-      <!-- <option value="0" disabled>
-        Select a restaurant
-      </option> -->
       <option v-for="restaurant in restaurants" :key="restaurant.id" :value="restaurant.id">
         {{ restaurant.name }}
       </option>
