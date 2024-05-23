@@ -39,6 +39,10 @@ CREATE TABLE
   );
 
 SELECT
-  *
+  restaurants.*,
+  COUNT(reports.id) AS reportCount
 FROM
-  restaurants;
+  restaurants
+  LEFT JOIN reports ON reports.restaurantId = restaurants.id
+GROUP BY
+  (restaurants.id);

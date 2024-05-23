@@ -47,9 +47,12 @@ public class RestaurantsRepository : IRepository<Restaurant>
     string sql = @"
     SELECT
     restaurants.*,
+    COUNT(reports.id) AS reportCount,
     accounts.*
     FROM restaurants
     JOIN accounts ON accounts.id = restaurants.creatorId
+    LEFT JOIN reports ON reports.restaurantId = restaurants.id
+    GROUP BY (restaurants.id)
     ORDER BY restaurants.createdAt;";
 
     List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, PopulateCreator).ToList();
