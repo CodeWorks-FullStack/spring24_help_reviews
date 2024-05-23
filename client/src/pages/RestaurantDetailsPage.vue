@@ -5,8 +5,11 @@ import Pop from '../utils/Pop.js';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState.js';
 import { reportsService } from '../services/ReportsService.js';
+import ReportCard from '../components/ReportCard.vue';
 
 const restaurant = computed(() => AppState.activeRestaurant)
+
+const reports = computed(() => AppState.reports)
 
 const route = useRoute()
 
@@ -61,6 +64,7 @@ onMounted(() => {
 
 <template>
   <div v-if="restaurant" class="container">
+    <!-- ANCHOR restaurant details -->
     <section class="row my-3">
       <div class="col-12">
         <div class="d-flex justify-content-between">
@@ -82,10 +86,9 @@ onMounted(() => {
                 <i class="mdi mdi-account-group text-success"></i>
                 {{ restaurant.visits }}
               </p>
-              <p class="fs-3 mb-1" :title="`${restaurant.name} has 0 total reports.`">
+              <p class="fs-3 mb-1" :title="`${restaurant.name} has ${reports.length} total reports.`">
                 <i class="mdi mdi-file text-success"></i>
-                <!-- TODO add report count here when backend supports it -->
-                0
+                {{ reports.length }}
               </p>
             </div>
 
@@ -105,6 +108,16 @@ onMounted(() => {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+    <!-- ANCHOR reports -->
+    <section class="row justify-content-center">
+      <div class="col-10">
+        <h2 class="fs-4">Reports for <span class="text-success">{{ restaurant.name }}</span></h2>
+      </div>
+
+      <div v-for="report in reports" :key="report.id" class="col-10 mb-3">
+        <ReportCard :report="report" />
       </div>
     </section>
   </div>
