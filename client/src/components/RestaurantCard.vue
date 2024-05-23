@@ -25,10 +25,9 @@ defineProps({
             <i class="mdi mdi-account-group text-success"></i>
             {{ restaurant.visits }}
           </p>
-          <p class="fs-3 mb-1" :title="`${restaurant.name} has 0 total reports.`">
+          <p class="fs-3 mb-1" :title="`${restaurant.name} has ${restaurant.reportCount} total reports.`">
             <i class="mdi mdi-file text-success"></i>
-            <!-- TODO add report count here when backend supports it -->
-            0
+            {{ restaurant.reportCount }}
           </p>
         </div>
       </div>

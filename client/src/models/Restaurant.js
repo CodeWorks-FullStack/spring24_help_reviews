@@ -12,6 +12,7 @@ export class Restaurant {
     this.creatorId = data.creatorId
     // TODO make profile class
     this.creator = data.creator
+    this.reportCount = data.reportCount
   }
 }
 
