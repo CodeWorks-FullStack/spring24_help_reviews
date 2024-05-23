@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from './AppState'
+import CreateReportModal from './components/CreateReportModal.vue';
 import Navbar from './components/Navbar.vue'
 
 
@@ -13,6 +14,7 @@ import Navbar from './components/Navbar.vue'
     <router-view />
   </main>
 
+  <CreateReportModal />
 </template>
 
 <style lang="scss">

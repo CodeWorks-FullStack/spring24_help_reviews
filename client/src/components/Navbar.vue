@@ -1,7 +1,10 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
+import { AppState } from '../AppState.js';
+
+const account = computed(() => AppState.account)
 
 const theme = ref(loadState('theme') || 'light')
 
@@ -31,6 +34,10 @@ function toggleTheme() {
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
+          <button v-if="account" class="btn btn-success" type="button" data-bs-toggle="modal"
+            data-bs-target="#createReportModal">
+            Create Report
+          </button>
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
