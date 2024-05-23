@@ -64,7 +64,8 @@ public class ReportsRepository : IRepository<Report>
     accounts.*
     FROM reports
     JOIN accounts ON accounts.id = reports.creatorId
-    WHERE reports.restaurantId = @restaurantId;";
+    WHERE reports.restaurantId = @restaurantId
+    ORDER BY reports.createdAt;";
 
     List<Report> reports = _db.Query<Report, Profile, Report>(sql, PopulateCreator, new { restaurantId }).ToList();
 

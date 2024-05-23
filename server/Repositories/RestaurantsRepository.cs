@@ -49,7 +49,8 @@ public class RestaurantsRepository : IRepository<Restaurant>
     restaurants.*,
     accounts.*
     FROM restaurants
-    JOIN accounts ON accounts.id = restaurants.creatorId;";
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    ORDER BY restaurants.createdAt;";
 
     List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, PopulateCreator).ToList();
 
