@@ -96,4 +96,15 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
     return restaurant;
   }
+
+  internal void IncrementVisits(int restaurantId)
+  {
+    string sql = @"
+      UPDATE restaurants
+      SET visits = visits + 1
+      WHERE id = @restaurantId
+      LIMIT 1;";
+
+    _db.Execute(sql, new { restaurantId });
+  }
 }

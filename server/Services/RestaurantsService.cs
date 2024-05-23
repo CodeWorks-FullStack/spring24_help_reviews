@@ -51,6 +51,15 @@ public class RestaurantsService
     return restaurant;
   }
 
+  internal Restaurant IncrementVisits(int restaurantId, string userId)
+  {
+    _repository.IncrementVisits(restaurantId);
+
+    Restaurant restaurant = GetRestaurantById(restaurantId, userId);
+
+    return restaurant;
+  }
+
   internal Restaurant UpdateRestaurant(Restaurant restaurantData, int restaurantId, string userId)
   {
     Restaurant restaurantToUpdate = GetRestaurantById(restaurantId);  // private method only accessible by members of this class

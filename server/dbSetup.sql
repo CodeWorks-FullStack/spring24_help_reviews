@@ -1,3 +1,4 @@
+-- Active: 1715633441965@@127.0.0.1@3306@adaptable_shaman_540684_db
 CREATE TABLE
   IF NOT EXISTS accounts (
     id VARCHAR(255) NOT NULL primary key COMMENT 'primary key',
